@@ -1,0 +1,17 @@
+sample,title,cell.type,time,tissue,treatment,sample.type
+GSM1232298,Non infected day2,melanocyte,day 2,skin,Non infected,Universal Human Reference RNA
+GSM1232300,Empty vector day2,melanocyte,day 2,skin,Empty vector,Universal Human Reference RNA
+GSM1232302,NRASWT    (day2),melanocyte,day 2,skin,NRASWT,Universal Human Reference RNA
+GSM1232305,NRASG12V  (day2),melanocyte,day 2,skin,NRASG12V,Universal Human Reference RNA
+GSM1232307,NRASA18T  (day2),melanocyte,day 2,skin,NRASA18T,Universal Human Reference RNA
+GSM1232308,NRASQ61R  (day2),melanocyte,day 2,skin,NRASQ61R,Universal Human Reference RNA
+GSM1232309,HRASG12V  (day2),melanocyte,day 2,skin,HRASG12V,Universal Human Reference RNA
+GSM1232310,BRAFV600E (day2),melanocyte,day 2,skin,BRAFV600E,Universal Human Reference RNA
+GSM1232314,Non infected day4,melanocyte,day 4,skin,Non infected,Universal Human Reference RNA
+GSM1232315,Empty vector day4,melanocyte,day 4,skin,Empty vector,Universal Human Reference RNA
+GSM1232316,NRASWT    (day4),melanocyte,day 4,skin,NRASWT,Universal Human Reference RNA
+GSM1232317,NRASG12V  (day4),melanocyte,day 4,skin,NRASG12V,Universal Human Reference RNA
+GSM1232318,NRASA18T  (day4),melanocyte,day 4,skin,NRASA18T,Universal Human Reference RNA
+GSM1232319,NRASQ61R  (day4),melanocyte,day 4,skin,NRASQ61R,Universal Human Reference RNA
+GSM1232320,HRASG12V  (day4),melanocyte,day 4,skin,HRASG12V,Universal Human Reference RNA
+GSM1232321,BRAFV600E (day4),melanocyte,day 4,skin,BRAFV600E,Universal Human Reference RNA

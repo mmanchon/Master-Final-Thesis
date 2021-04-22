@@ -2,7 +2,7 @@ library(data.table)
 library(tidyverse)
 library(foreach)
 
-debug <- TRUE
+debug <- FALSE
 
 
 if (debug){

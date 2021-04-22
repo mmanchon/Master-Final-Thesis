@@ -1,0 +1,11 @@
+sample,title,cell.line,cell.state,treatment
+GSM991787,"Growing IMR90, biological rep1",IMR90,growing,none
+GSM991788,"Growing IMR90, biological rep2",IMR90,growing,none
+GSM991789,"S/shLuc IMR90, biological rep1",IMR90,senescent,infected with Ras and control hairpin (shLuciferase)
+GSM991790,"S/shLuc IMR90, biological rep2",IMR90,senescent,infected with Ras and control hairpin (shLuciferase)
+GSM991791,"S/shRB IMR90, biological rep1",IMR90,senescent,infected with Ras and RB hairpin
+GSM991792,"S/shRB IMR90, biological rep2",IMR90,senescent,infected with Ras and RB hairpin
+GSM991793,"S/shE2F7 IMR90, biological rep1",IMR90,senescent,infected with Ras and E2F7 hairpin
+GSM991794,"S/shE2F7 IMR90, biological rep2",IMR90,senescent,infected with Ras and E2F7 hairpin
+GSM991795,"S/shRB-E2F7 IMR90, biological rep1",IMR90,senescent,infected with Ras and RB and E2F7 hairpins
+GSM991796,"S/shRB-E2F7 IMR90, biological rep2",IMR90,senescent,infected with Ras and RB and E2F7 hairpins

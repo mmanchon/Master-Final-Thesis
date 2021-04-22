@@ -1,0 +1,13 @@
+sample,title,cell.line
+GSM1348905,"LacZ ORF, KRAS suppression, rep1",HCT116
+GSM1348906,"LacZ ORF, KRAS suppression, rep2",HCT116
+GSM1348907,"LacZ ORF, KRAS not suppressed, rep1",HCT116
+GSM1348908,"LacZ ORF, KRAS not suppressed, rep2",HCT116
+GSM1348909,"YAP1 ORF, KRAS suppression, rep1",HCT116
+GSM1348910,"YAP1 ORF, KRAS suppression, rep2",HCT116
+GSM1348911,"YAP1 ORF, KRAS not suppressed, rep1",HCT116
+GSM1348912,"YAP1 ORF, KRAS not suppressed, rep2",HCT116
+GSM1348913,"KRAS ORF, KRAS suppression, rep1",HCT116
+GSM1348914,"KRAS ORF, KRAS suppression, rep2",HCT116
+GSM1348915,"KRAS ORF, KRAS not suppressed, rep1",HCT116
+GSM1348916,"KRAS ORF, KRAS not suppressed, rep2",HCT116

@@ -1,0 +1,19 @@
+sample,title,cell.line,genotype.variation
+GSM3177682,NMB wild type 1,NMB,wildtype
+GSM3177683,NMB wild type 2,NMB,wildtype
+GSM3177684,NMB wild type 3,NMB,wildtype
+GSM3177685,NMB pInd NRAS -dox 1,NMB,doxycycline-inducible expression of NRAS Q61V (minus dox)
+GSM3177686,NMB pInd NRAS -dox 2,NMB,doxycycline-inducible expression of NRAS Q61V (minus dox)
+GSM3177687,NMB pInd NRAS -dox 3,NMB,doxycycline-inducible expression of NRAS Q61V (minus dox)
+GSM3177688,NMB pInd NRAS +dox 1,NMB,doxycycline-inducible expression of NRAS Q61V (plus dox)
+GSM3177689,NMB pInd NRAS +dox 2,NMB,doxycycline-inducible expression of NRAS Q61V (plus dox)
+GSM3177690,NMB pInd NRAS +dox 3,NMB,doxycycline-inducible expression of NRAS Q61V (plus dox)
+GSM3177691,NMB pLCR NF1 1,NMB,CRISPR induced knockout of NF1
+GSM3177692,NMB pLCR NF1 2,NMB,CRISPR induced knockout of NF1
+GSM3177693,NMB pLCR NF1 3,NMB,CRISPR induced knockout of NF1
+GSM3177694,SJNB8 DMSO 1,SJNB8,wildtype cells with DMSO vehicle
+GSM3177695,SJNB8 DMSO 2,SJNB8,wildtype cells with DMSO vehicle
+GSM3177696,SJNB8 DMSO 3,SJNB8,wildtype cells with DMSO vehicle
+GSM3177697,SJNB8 Trametinib 1,SJNB8,wildtype cells with Trametinib
+GSM3177698,SJNB8 Trametinib 2,SJNB8,wildtype cells with Trametinib
+GSM3177699,SJNB8 Trametinib 3,SJNB8,wildtype cells with Trametinib

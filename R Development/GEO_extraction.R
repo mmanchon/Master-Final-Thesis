@@ -7,13 +7,16 @@ debug <- FALSE
 
 if (debug){
 
-  SERIES_FILE <- ("../data/geo/GSE50911_series_matrix.txt/GSE50911_series_matrix.txt")
-  PLATFORM_FILE <- ("../data/geo/GSE50911_series_matrix.txt/GPL4133-12599.txt")
-  GENE_COLUMN <- "GENE"
+  GSE <- "GSE115406"
+  GPL <- "GPL570-55999"
+  
+  SERIES_FILE <- paste("../data/geo/",GSE,"_series_matrix.txt/",GSE,"_series_matrix.txt", sep = "")
+  PLATFORM_FILE <- paste("../data/geo/",GSE,"_series_matrix.txt/",GPL,".txt",sep = "")
+  GENE_COLUMN <- "ENTREZ_GENE_ID"
   
   #### Output files ####
-  EXPRESSION_OUTPUT_FILE <- "../data/geo/GSE50911_series_matrix.txt/GSE50911_expression.csv"
-  ANNOTATION_OUTPUT_FILE <- "../data/geo/GSE50911_series_matrix.txt/GSE50911_annotation.csv"
+  EXPRESSION_OUTPUT_FILE <- paste("../data/geo/",GSE,"_series_matrix.txt/",GSE,"_expression.csv",sep = "")
+  ANNOTATION_OUTPUT_FILE <- paste("../data/geo/",GSE,"_series_matrix.txt/",GSE,"_annotation.csv", sep = "")
   
 }else{
   args <- commandArgs(TRUE)
@@ -37,6 +40,8 @@ if (debug){
   EXPRESSION_OUTPUT_FILE <- paste(HOME,GSE, "_expression.csv",sep="")
   ANNOTATION_OUTPUT_FILE <- paste(HOME,GSE, "_annotation.csv",sep="")
 }
+
+
 # Read characteristics
 con <- file(SERIES_FILE, "r")
 characteristics <- c()

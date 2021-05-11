@@ -40,3 +40,5 @@ datos_exp<-merge(x=datos_exp, y=datos_samples[,c("SAMPLE_ID","PATIENT_ID")], by.
 datos_exp<-merge(x=datos_exp, y=datos_patients[,c("PATIENT_ID","AGE","SEX","RACE","ETHNICITY","NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT","AJCC_PATHOLOGIC_TUMOR_STAGE","WEIGHT", "OS_STATUS","OS_MONTHS","DSS_STATUS","DSS_MONTHS","DFS_STATUS","DFS_MONTHS","PFS_STATUS","PFS_MONTHS")], by.x="PATIENT_ID", by.y="PATIENT_ID", all.x=TRUE)
 
 datos_exp<-merge(x = datos_exp, y = clinical_data[,c("Patient.ID","Diagnosis.Age","Mutation.Count","Prior.Diagnosis","Fraction.Genome.Altered")],by.x = "PATIENT_ID", by.y = "Patient.ID", all.x = TRUE)
+
+write.csv(x = datos_exp, file = "dataset.csv")

@@ -1,0 +1,4 @@
+probar otros algoritmos supervisados
+Añadir otras variables para mejorar la prediccion
+Ejecutar el mismo proceso para downregulation
+redactar memoria

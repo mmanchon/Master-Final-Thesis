@@ -1,0 +1,7 @@
+sample,title,tissue.cell.type,genotype.variation,treated.with
+GSM1128380,HEK_DMSO treated rep1,embryonic kidney,control,DMSO
+GSM1128381,HEK_DMSO treated rep2,embryonic kidney,control,DMSO
+GSM1128382,HEK RAS transformed DMSO treated rep1,embryonic kidney,RAS transformed,DMSO
+GSM1128383,HEK RAS transformed DMSO treated rep2,embryonic kidney,RAS transformed,DMSO
+GSM1128384,HEK RAS transformed UO126 treated rep1,embryonic kidney,RAS transformed,UO126
+GSM1128385,HEK RAS transformed UO126 treated rep2,embryonic kidney,RAS transformed,UO126

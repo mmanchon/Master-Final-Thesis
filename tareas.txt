@@ -1,4 +1,16 @@
-probar otros algoritmos supervisados
-Añadir otras variables para mejorar la prediccion
-Ejecutar el mismo proceso para downregulation
-redactar memoria
+Martes 25 		-> Acabar firma genética de downregulation (check)
+				-> Visualización de datos de las 2 firmas de overexpression + las downregulation
+				-> Visualización de clinical data de los 3 datasets
+
+Miercoles 26	-> Correlation de genes over y down con cada variable a predecir (descartar los que tengan muchos nulls)
+				-> Correlation con clinical data
+				-> Prediccion RF con las otras firmas y clinical data
+
+Jueves 27		-> Prediccion con NN de los anteriores.
+
+Viernes 28		-> Posibles mejoras de los algoritmos. Y porques.
+
+Sabado 29 		-> Redaccion del estado del arte
+
+Domingo 30		-> Redaccion de conclusiones
+				-> Mejoras memoria

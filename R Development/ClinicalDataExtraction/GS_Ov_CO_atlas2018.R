@@ -1,13 +1,14 @@
 library(openxlsx)
 library(utils)
 library(stringr)
+library(writexl)
 
-HOME <- "../../data/clinical_outcome/paad_tcga_pan_can_atlas_2018/paad_tcga_pan_can_atlas_2018/"
+HOME <- "../data/clinical_outcome/paad_tcga_pan_can_atlas_2018/"
 RNA <- "data_RNA_Seq_v2_mRNA_median_all_sample_Zscores.txt"
 SAMPLES <- "data_clinical_sample.txt"
 PATIENTS <- "data_clinical_patient.txt"
-FIRMA <- "../../gene signature/firma_over_1.xlsx"
-CLINICAL <- "../../data/clinical_outcome/paad_tcga_pan_can_atlas_2018/paad_tcga_pan_can_atlas_2018_clinical_data.tsv"
+FIRMA <- "../gene signature/firma_over_1.xlsx"
+CLINICAL <- "../data/clinical_outcome/paad_tcga_pan_can_atlas_2018/paad_tcga_pan_can_atlas_2018_clinical_data.tsv"
 
 datos_RNA<-read.delim(paste(HOME,RNA,sep = ""), sep="\t", dec=".",na.strings=c("","NA"))
 
@@ -42,3 +43,4 @@ datos_exp<-merge(x=datos_exp, y=datos_patients[,c("PATIENT_ID","AGE","SEX","RACE
 datos_exp<-merge(x = datos_exp, y = clinical_data[,c("Patient.ID","Diagnosis.Age","Mutation.Count","Prior.Diagnosis","Fraction.Genome.Altered")],by.x = "PATIENT_ID", by.y = "Patient.ID", all.x = TRUE)
 
 write.csv(x = datos_exp, file = "ClinicalOutcomesDS/CO_atlas2018_over1.csv")
+write_xlsx(datos_exp, "ClinicalOutcomesDS/CO_atlas2018_over1.xlsx")

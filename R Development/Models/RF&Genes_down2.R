@@ -10,68 +10,14 @@ library(fastDummies)
 library(VIM)
 library(corrplot)
 
-datos_exp <- read.csv(file = "dataset.csv")
-
-
-# Analysis of missing values
-nrow(datos_exp)
-# Variables clínicas
-colnames(datos_exp)
-
-sapply(datos_exp[,c("AGE", "SEX", "RACE","ETHNICITY", "NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT",
-                    "AJCC_PATHOLOGIC_TUMOR_STAGE" ,"WEIGHT","OS_STATUS","OS_MONTHS" ,"DSS_STATUS",
-                    "DSS_MONTHS", "DFS_STATUS" , "DFS_MONTHS", "PFS_STATUS", "PFS_MONTHS", "Diagnosis.Age",
-                    "Mutation.Count", "Prior.Diagnosis", "Fraction.Genome.Altered", "DSS_MONTHS",
-                    "DFS_STATUS","DFS_MONTHS","PFS_STATUS","PFS_MONTHS")], 
-       function(x) sum(is.na(x)))
-
-sapply(datos_exp[,c("OS_STATUS","OS_MONTHS","DSS_STATUS","DSS_MONTHS","DFS_STATUS","DFS_MONTHS","PFS_STATUS","PFS_MONTHS")], function(x) sum(is.na(x)))
-
-aggr(datos_exp[,c("OS_STATUS","OS_MONTHS","DSS_STATUS","DSS_MONTHS","DFS_STATUS","DFS_MONTHS","PFS_STATUS","PFS_MONTHS")], col = c("skyblue", "red"),prop=FALSE, numbers=TRUE,
-     cex.numbers=1, cex.axis=0.6, sortVars=TRUE,
-     ylab = c("NA histogram", "Patron"), gap=2, oma = c(7,2,1,1))
-
-table(datos_exp$OS_STATUS)
-table(datos_exp$DSS_STATUS)
-table(datos_exp$PFS_STATUS)
-
-# Nulos en los genes
-colnames(datos_exp)
-
-sapply(datos_exp[,c("ABI3BP","ANO1","C1orf86","CD44","CRYBA2","CXorf36","DAB2","DCT","EIF4E","ENAM","ETV5",
-                    "FGL2","FLT4"  ,"GLRA3","GNAO1" ,"GRIK2" ,"GULP1" ,"ITGB1","KANK2" ,"MS4A6A",
-                    "NPAS3","PCDH11X", "PRLR", "PTPRC","ROBO4" ,"SORBS1" ,"SPAG6" ,"SRC", "TFRC")],
-       function(x) sum(is.na(x)))
+datos_exp <- read.csv(file = "ClinicalOutcomesDS/CO_atlas2018_down2.csv")
 
 # Correlation analysis
 
-temp<-datos_exp[,c("ABI3BP","ANO1","C1orf86","CD44","CRYBA2","CXorf36","DAB2","DCT","EIF4E","ENAM","ETV5",
-                   "FGL2","FLT4"  ,"GLRA3","GNAO1" ,"GRIK2" ,"GULP1" ,"ITGB1","KANK2" ,"MS4A6A",
-                   "NPAS3","PCDH11X", "PRLR", "PTPRC","ROBO4" ,"SORBS1" ,"SPAG6" ,"SRC", "TFRC",
-                   "OS_STATUS","OS_MONTHS","DSS_MONTHS","PFS_MONTHS")]
+aux<-datos_exp[,c("PDLIM5", "OSBPL10", "EGFR", "FRMD4B", "POFUT2", "HFE", "KCNMA1", "MOG", "ZNF44", "DOCK10", "VDR", "CA12", "RUNX1", "TNFRSF25", "SKAP2","OS_STATUS")]
 
-vars<-c("ABI3BP","ANO1","C1orf86","CD44","CRYBA2","CXorf36","DAB2","DCT","EIF4E","ENAM","ETV5",
-        "FGL2","FLT4"  ,"GLRA3","GNAO1" ,"GRIK2" ,"GULP1" ,"ITGB1","KANK2" ,"MS4A6A",
-        "NPAS3","PCDH11X", "PRLR", "PTPRC","ROBO4" ,"SORBS1" ,"SPAG6" ,"SRC", "TFRC","OS_STATUS")
-
-# Convierto las variables de los genes a tipo numérico
-
-temp[vars] <- sapply(temp[vars],as.numeric)
-str(temp)
-
-corrplot(cor(temp[,vars], method= "pearson"), method="color",type="upper",tl.col="black", tl.cex=0.6, tl.srt=45,addCoef.col="black",number.cex=0.7)
-
-aux <- temp[, -which(names(datos_exp) %in% c("ABI3BP","CXorf36",
-                   "DAB2","EIEF4E",
-                   "ENAM","ETV5",
-                   "FGL2","GLRA3",
-                   "GRIK2","GLUP1",
-                   "KANK2","MS4A6A",
-                   "PCDH11X",
-                   "PTPRC",
-                   "SORBS1"))]
-
-aux <- aux[, -which(names(aux) %in% c("OS_MONTHS","DSS_MONTHS","PFS_MONTHS"))]
+sapply(datos_exp[,c("PDLIM5", "OSBPL10", "EGFR", "FRMD4B", "POFUT2", "HFE", "KCNMA1", "MOG", "ZNF44", "DOCK10", "VDR", "CA12", "RUNX1", "TNFRSF25", "SKAP2","OS_STATUS")], 
+       function(x) sum(is.na(x)))
 
 aux$OS_STATUS <- as.factor(aux$OS_STATUS)
 
@@ -92,23 +38,14 @@ rf<- train(OS_STATUS ~ .,
            data = train,
            method = "rf",
            metric = "Accuracy",
-           #tuneGrid = tuneGrid,
            trControl = trControl,
            importance = TRUE,
-           #nodesize = 5,
-           #maxnodes = 8,
-           #ntree = 300,
-           #strata = train_dummy$Claudicacion, 
-           #sampsize = c('1'=2381,'0'=2381),
            na.action=na.omit)
-rf
-# Hago la predicción sobre test3_dummy para confirmar las métricas de modelo
+
+
 pred <-predict(rf, test, na.action=na.omit)
-#pred <-predict(rf, test, na.action=na.omit)
-# Extraigo la matriz de confusión
+
 confMat<-confusionMatrix(pred, test$OS_STATUS, positive="1")
-#confMat3<-confusionMatrix(pred3, test3$Claudicacion_umbral3,positive="1")
-confMat
 
 draw_confusion_matrix <- function(cm) {
         total <- sum(cm$table)

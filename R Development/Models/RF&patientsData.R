@@ -153,7 +153,7 @@ pred <-predict(rf, test_dummy, na.action=na.omit)
 #pred <-predict(rf, test, na.action=na.omit)
 # Extraigo la matriz de confusión
 
-confMat<-confusionMatrix(pred, test_dummy$OS_STATUS, positive="1")
+confMat<-confusionMatrix(pred, test_dummy$OS_STATUS)
 #confMat3<-confusionMatrix(pred3, test3$Claudicacion_umbral3,positive="1")
 confMat
 draw_confusion_matrix(confMat)

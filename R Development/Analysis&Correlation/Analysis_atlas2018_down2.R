@@ -150,7 +150,7 @@ corrplot(cor(temp[,vars], method= "pearson"), method="color",type="upper",tl.col
 corrplot(cor(temp[,vars_1], method= "pearson"), method="color",type="upper",tl.col="black", tl.cex=0.6, tl.srt=45,addCoef.col="black",number.cex=0.7)
 corrplot(cor(temp[,vars_2], method= "pearson"), method="color",type="upper",tl.col="black", tl.cex=0.6, tl.srt=45,addCoef.col="black",number.cex=0.7)
 
-aux <- temp[, which(names(temp) %in% c("IPW","DOCK10","PSMB8","CASC5","SNRPN","ELOVL4","LOC728392","CA12","OS_STATUS"))]
+aux <- temp[, which(names(temp) %in% c("PDLIM5", "OSBPL10", "EGFR", "FRMD4B", "POFUT2", "HFE", "KCNMA1", "MOG", "ZNF44", "DOCK10", "VDR", "CA12", "RUNX1", "TNFRSF25", "SKAP2","OS_STATUS"))]
 
 #aux <- aux[, -which(names(aux) %in% c("OS_MONTHS","DSS_MONTHS","PFS_MONTHS"))]
 

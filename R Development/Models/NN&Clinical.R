@@ -15,24 +15,52 @@ library(mxnet)
 datos_exp <- read.csv(file = "ClinicalOutcomesDS/CO_atlas2018_over1.csv")
 
 
+categorical_data <- datos_exp[,c("X","AGE", "SEX", "RACE", "ETHNICITY", "NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT",
+                                 "AJCC_PATHOLOGIC_TUMOR_STAGE", "WEIGHT", "Diagnosis.Age", "Mutation.Count",
+                                 "Prior.Diagnosis", "Fraction.Genome.Altered")]
+
+categorical_data$AgeRange <- ifelse(categorical_data$AGE < 57,"X57",ifelse(categorical_data$AGE > 73, "X73","57x73"))
+categorical_data$DiagnosisRange <- ifelse(categorical_data$Diagnosis.Age < 57,"X57",ifelse(categorical_data$Diagnosis.Age > 73, "X73","57x73"))
+categorical_data$MutationRange <- ifelse(categorical_data$Mutation.Count < 24,"X24",ifelse(categorical_data$Mutation.Count > 47, "X47","24x47"))
+categorical_data$AlteredRange <- ifelse(categorical_data$Fraction.Genome.Altered < 0.001325,"X0.001325",ifelse(categorical_data$Fraction.Genome.Altered > 0.229775, "X0.229775","0.001325x0.229775"))
+categorical_data$WEIGHT <- NULL
+
+colnames(categorical_data)[which(names(categorical_data) == "AJCC_PATHOLOGIC_TUMOR_STAGE")] <- "STAGE"
+colnames(categorical_data)[which(names(categorical_data) == "NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT")] <- "RepeteadTumor"
 colnames(datos_exp)[which(names(datos_exp) == "OS_STATUS")] <- "OsStatus"
+
+categorical_data$STAGE <- as.character(categorical_data$STAGE)
+categorical_data$STAGE[is.na(categorical_data$STAGE)] <- "Stage I"
+categorical_data$STAGE <- as.factor(categorical_data$STAGE)
+
+lista<-levels(categorical_data$STAGE)
+lista_early<-lista[-c(6:7)]
+lista_late<-lista[-c(1:5)]
+
+levels(categorical_data$STAGE)[levels(categorical_data$STAGE) %in% lista_early]<-"Stage_I_II"
+levels(categorical_data$STAGE)[levels(categorical_data$STAGE) %in% lista_late]<-"Stage_III_IV"
+
+categorical_data <- categorical_data[,-which(colnames(categorical_data) %in% c("AGE","Diagnosis.Age","Mutation.Count","Fraction.Genome.Altered"))]
 
 normalize <- function(x) {
   return ((x - min(x)) / (max(x) - min(x)))
 }
 maxmindf <- as.data.frame(lapply(datos_exp[,c("ANO1" ,"C1orf86","CD44","CRYBA2","DCT","EIF4E","FLT4" ,"GNAO1","GULP1","ITGB1","NPAS3"  ,"PRLR","ROBO4" ,"SPAG6" ,"SRC"  ,"TFRC")], normalize))
 datos_exp[,c("ANO1" ,"C1orf86","CD44","CRYBA2","DCT","EIF4E","FLT4" ,"GNAO1","GULP1","ITGB1","NPAS3"  ,"PRLR","ROBO4" ,"SPAG6" ,"SRC"  ,"TFRC")] <- maxmindf
-data <- datos_exp[,c("ANO1" ,"C1orf86","CD44","CRYBA2","DCT","EIF4E","FLT4" ,"GNAO1","GULP1","ITGB1","NPAS3"  ,"PRLR","ROBO4" ,"SPAG6" ,"SRC"  ,"TFRC","OsStatus")]
+data <- merge(x = categorical_data, y = datos_exp[,c("X","ANO1" ,"C1orf86","CD44","CRYBA2","DCT","EIF4E","FLT4" ,"GNAO1","GULP1","ITGB1","NPAS3"  ,"PRLR","ROBO4" ,"SPAG6" ,"SRC"  ,"TFRC","OsStatus")], by = "X", all.x = TRUE)
+categorical_data$STAGE <- as.factor(categorical_data$STAGE)
 
 
-
-data_matrix <- model.matrix(~ANO1+ C1orf86+CD44+CRYBA2+DCT + EIF4E + FLT4 +GNAO1+GULP1+ITGB1+NPAS3+PRLR+ROBO4
+data_matrix <- model.matrix(~AgeRange+SEX+RACE+ETHNICITY+RepeteadTumor+STAGE+
+                              DiagnosisRange+MutationRange+AlteredRange+
+                              ANO1+ C1orf86+CD44+CRYBA2+DCT + EIF4E + FLT4 +GNAO1+GULP1+ITGB1+NPAS3+PRLR+ROBO4
                               +SPAG6+SRC+TFRC+OsStatus, data=data)
-
 colnames(data_matrix)
-colnames(data_matrix)[18] <- "OsStatusDeceased"
-
-col_list <- paste(c(colnames(data_matrix[,-c(1,18)])),collapse="+")
+colnames(data_matrix)[37] <- "OsStatusDeceased"
+colnames(data_matrix)[5] <- "RACEBlackOrAfricanAmerican"
+colnames(data_matrix)[7] <- "ETHNICITYHispanicOrLatino"
+colnames(data_matrix)[8] <- "ETHNICITYNotHispanicOrLatino"
+col_list <- paste(c(colnames(data_matrix[,-c(1,37)])),collapse="+")
 col_list <- paste(c("OsStatusDeceased~",col_list),collapse="")
 f <- formula(col_list)
 

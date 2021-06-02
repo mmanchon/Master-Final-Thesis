@@ -1,6 +1,7 @@
 library(openxlsx)
 library(utils)
 library(stringr)
+library(writexl)
 
 HOME <- "../data/clinical_outcome/paad_tcga_pan_can_atlas_2018/"
 RNA <- "data_RNA_Seq_v2_mRNA_median_all_sample_Zscores.txt"
@@ -42,3 +43,4 @@ datos_exp<-merge(x=datos_exp, y=datos_patients[,c("PATIENT_ID","AGE","SEX","RACE
 datos_exp<-merge(x = datos_exp, y = clinical_data[,c("Patient.ID","Diagnosis.Age","Mutation.Count","Prior.Diagnosis","Fraction.Genome.Altered")],by.x = "PATIENT_ID", by.y = "Patient.ID", all.x = TRUE)
 
 write.csv(x = datos_exp, file = "ClinicalOutcomesDS/CO_atlas2018_over2.csv")
+write_xlsx(datos_exp, "ClinicalOutcomesDS/CO_atlas2018_over2.xlsx")

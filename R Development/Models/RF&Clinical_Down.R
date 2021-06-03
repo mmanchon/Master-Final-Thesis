@@ -10,7 +10,7 @@ library(fastDummies)
 library(VIM)
 library(corrplot)
 
-datos_exp <- read.csv(file = "ClinicalOutcomesDS/CO_atlas2018_down.csv")
+datos_exp <- read.csv(file = "ClinicalOutcomesDS/CO_atlas2018_down1.csv")
 
 categorical_data <- datos_exp[,c("X","AGE", "SEX", "RACE", "ETHNICITY", "NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT",
                               "AJCC_PATHOLOGIC_TUMOR_STAGE", "WEIGHT", "Diagnosis.Age", "Mutation.Count",
@@ -38,7 +38,7 @@ categorical_data <- categorical_data[,-which(colnames(categorical_data) %in% c("
 
 #dummy <- dummyVars(" ~ .", data=categorical_data)
 #newdata <- data.frame(predict(dummy, newdata = categorical_data))
-data <- merge(x = categorical_data, y = datos_exp[,c("X","PDLIM5", "OSBPL10", "EGFR", "FRMD4B", "POFUT2", "HFE", "KCNMA1", "MOG", "ZNF44", "DOCK10", "VDR", "CA12", "RUNX1", "TNFRSF25", "SKAP2","OS_STATUS")], by = "X", all.x = TRUE)
+data <- merge(x = categorical_data, y = datos_exp[,c("X","IPW","DOCK10","PSMB8","CASC5","SNRPN","ELOVL4","LOC728392","CA12","OS_STATUS")], by = "X", all.x = TRUE)
 categorical_data$STAGE <- as.factor(categorical_data$STAGE)
 
 data$X <- NULL

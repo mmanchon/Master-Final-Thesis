@@ -56,16 +56,16 @@ data_matrix <- model.matrix(~AgeRange+SEX+RACE+ETHNICITY+RepeteadTumor+STAGE+
                               ANO1+ C1orf86+CD44+CRYBA2+DCT + EIF4E + FLT4 +GNAO1+GULP1+ITGB1+NPAS3+PRLR+ROBO4
                               +SPAG6+SRC+TFRC+OsStatus, data=data)
 colnames(data_matrix)
-colnames(data_matrix)[37] <- "OsStatusDeceased"
+colnames(data_matrix)[32] <- "OsStatusDeceased"
 colnames(data_matrix)[5] <- "RACEBlackOrAfricanAmerican"
 colnames(data_matrix)[7] <- "ETHNICITYHispanicOrLatino"
 colnames(data_matrix)[8] <- "ETHNICITYNotHispanicOrLatino"
-col_list <- paste(c(colnames(data_matrix[,-c(1,37)])),collapse="+")
+col_list <- paste(c(colnames(data_matrix[,-c(1,32)])),collapse="+")
 col_list <- paste(c("OsStatusDeceased~",col_list),collapse="")
 f <- formula(col_list)
 
-train <- as.data.frame(data_matrix[1:106,-c(1)])
-test <- as.data.frame(data_matrix[107:173,-c(1)])
+train <- as.data.frame(data_matrix[1:76,-c(1)])
+test <- as.data.frame(data_matrix[77:106,-c(1)])
 
 nmodel <- neuralnet(f,data=train,hidden=1,
                     threshold = 0.01,

@@ -12,7 +12,7 @@ library(corrplot)
 library(neuralnet)
 library(mxnet)
 
-datos_exp <- read.csv(file = "ClinicalOutcomesDS/CO_atlas2018_over1.csv")
+datos_exp <- read.csv(file = "ClinicalOutcomesDS/CO_atlas2018_over2.csv")
 
 
 categorical_data <- datos_exp[,c("X","AGE", "SEX", "RACE", "ETHNICITY", "NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT",
@@ -45,22 +45,24 @@ categorical_data <- categorical_data[,-which(colnames(categorical_data) %in% c("
 normalize <- function(x) {
   return ((x - min(x)) / (max(x) - min(x)))
 }
-maxmindf <- as.data.frame(lapply(datos_exp[,c("ANO1" ,"C1orf86","CD44","CRYBA2","DCT","EIF4E","FLT4" ,"GNAO1","GULP1","ITGB1","NPAS3"  ,"PRLR","ROBO4" ,"SPAG6" ,"SRC"  ,"TFRC")], normalize))
-datos_exp[,c("ANO1" ,"C1orf86","CD44","CRYBA2","DCT","EIF4E","FLT4" ,"GNAO1","GULP1","ITGB1","NPAS3"  ,"PRLR","ROBO4" ,"SPAG6" ,"SRC"  ,"TFRC")] <- maxmindf
-data <- merge(x = categorical_data, y = datos_exp[,c("X","ANO1" ,"C1orf86","CD44","CRYBA2","DCT","EIF4E","FLT4" ,"GNAO1","GULP1","ITGB1","NPAS3"  ,"PRLR","ROBO4" ,"SPAG6" ,"SRC"  ,"TFRC","OsStatus")], by = "X", all.x = TRUE)
-categorical_data$STAGE <- as.factor(categorical_data$STAGE)
-
+maxmindf <- as.data.frame(lapply(datos_exp[,c("EGLN2","C19orf26","POM121L8P", "MCM4", "MLXIPL", "ROBO4", "LGR4","TFRC")], normalize))
+datos_exp[,c("EGLN2","C19orf26","POM121L8P", "MCM4", "MLXIPL", "ROBO4", "LGR4","TFRC")] <- maxmindf
+data <- merge(x = categorical_data, y = datos_exp[,c("X","EGLN2","C19orf26","POM121L8P", "MCM4", "MLXIPL", "ROBO4", "LGR4","TFRC","OsStatus")], by = "X", all.x = TRUE)
+data$STAGE <- as.factor(categorical_data$STAGE)
+data[is.na(data)] <- -1
+data$ETHNICITY <- as.character(data$ETHNICITY)
+data$NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT <- as.character(data$NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT)
+data[is.na(data)] <- ''
 
 data_matrix <- model.matrix(~AgeRange+SEX+RACE+ETHNICITY+RepeteadTumor+STAGE+
                               DiagnosisRange+MutationRange+AlteredRange+
-                              ANO1+ C1orf86+CD44+CRYBA2+DCT + EIF4E + FLT4 +GNAO1+GULP1+ITGB1+NPAS3+PRLR+ROBO4
-                              +SPAG6+SRC+TFRC+OsStatus, data=data)
+                              EGLN2+C19orf26+POM121L8P+MCM4+MLXIPL+ROBO4+LGR4+TFRC+OsStatus, data=data)
 colnames(data_matrix)
-colnames(data_matrix)[37] <- "OsStatusDeceased"
+colnames(data_matrix)[24] <- "OsStatusDeceased"
 colnames(data_matrix)[5] <- "RACEBlackOrAfricanAmerican"
 colnames(data_matrix)[7] <- "ETHNICITYHispanicOrLatino"
 colnames(data_matrix)[8] <- "ETHNICITYNotHispanicOrLatino"
-col_list <- paste(c(colnames(data_matrix[,-c(1,37)])),collapse="+")
+col_list <- paste(c(colnames(data_matrix[,-c(1,24)])),collapse="+")
 col_list <- paste(c("OsStatusDeceased~",col_list),collapse="")
 f <- formula(col_list)
 

@@ -14,58 +14,6 @@ library(mxnet)
 
 datos_exp <- read.csv(file = "ClinicalOutcomesDS/CO_atlas2018_over2.csv")
 
-
-colnames(datos_exp)[which(names(datos_exp) == "OS_STATUS")] <- "OsStatus"
-
-normalize <- function(x) {
-  return ((x - min(x)) / (max(x) - min(x)))
-}
-maxmindf <- as.data.frame(lapply(datos_exp[,c("EGLN2","C19orf26","POM121L8P", "MCM4", "MLXIPL", "ROBO4", "LGR4","TFRC")], normalize))
-datos_exp[,c("EGLN2","C19orf26","POM121L8P", "MCM4", "MLXIPL", "ROBO4", "LGR4","TFRC")] <- maxmindf
-data <- datos_exp[,c("EGLN2","C19orf26","POM121L8P", "MCM4", "MLXIPL", "ROBO4", "LGR4","TFRC","OsStatus")]
-
-
-
-data_matrix <- model.matrix(~EGLN2+C19orf26+POM121L8P+MCM4+MLXIPL+ROBO4+LGR4+TFRC+OsStatus, data=data)
-
-colnames(data_matrix)
-colnames(data_matrix)[10] <- "OsStatusDeceased"
-
-col_list <- paste(c(colnames(data_matrix[,-c(1,10)])),collapse="+")
-col_list <- paste(c("OsStatusDeceased~",col_list),collapse="")
-f <- formula(col_list)
-
-train <- as.data.frame(data_matrix[1:106,-c(1)])
-test <- as.data.frame(data_matrix[107:173,-c(1)])
-
-nmodel <- neuralnet(f,data=train,hidden=1,
-                    threshold = 0.01,
-                    learningrate.limit = NULL,
-                    learningrate.factor =
-                      list(minus = 0.5, plus = 1.2),
-                    algorithm = "rprop+")
-
-
-plot(nmodel)
-
-
-temp_test <- test
-temp_test$OsStatusDeceased <- NULL
-
-nn.results <- compute(nmodel, temp_test)
-
-
-results <- data.frame(actual = test$OsStatusDeceased, prediction = nn.results$net.result)
-
-
-results
-
-
-roundedresults<-sapply(results,round,digits=0)
-roundedresultsdf=data.frame(roundedresults)
-
-
-
 draw_confusion_matrix <- function(cm) {
   total <- sum(cm$table)
   res <- as.numeric(cm$table)
@@ -120,6 +68,58 @@ draw_confusion_matrix <- function(cm) {
   text(70, 35, names(cm$overall[2]), cex=1.5, font=2)
   text(70, 20, round(as.numeric(cm$overall[2]), 3), cex=1.4)
 }
+
+colnames(datos_exp)[which(names(datos_exp) == "OS_STATUS")] <- "OsStatus"
+
+normalize <- function(x) {
+  return ((x - min(x)) / (max(x) - min(x)))
+}
+maxmindf <- as.data.frame(lapply(datos_exp[,c("EGLN2","C19orf26","POM121L8P", "MCM4", "MLXIPL", "ROBO4", "LGR4","TFRC")], normalize))
+datos_exp[,c("EGLN2","C19orf26","POM121L8P", "MCM4", "MLXIPL", "ROBO4", "LGR4","TFRC")] <- maxmindf
+data <- datos_exp[,c("EGLN2","C19orf26","POM121L8P", "MCM4", "MLXIPL", "ROBO4", "LGR4","TFRC","OsStatus")]
+
+
+
+data_matrix <- model.matrix(~EGLN2+C19orf26+POM121L8P+MCM4+MLXIPL+ROBO4+LGR4+TFRC+OsStatus, data=data)
+
+colnames(data_matrix)
+colnames(data_matrix)[10] <- "OsStatusDeceased"
+
+col_list <- paste(c(colnames(data_matrix[,-c(1,10)])),collapse="+")
+col_list <- paste(c("OsStatusDeceased~",col_list),collapse="")
+f <- formula(col_list)
+
+train <- as.data.frame(data_matrix[1:106,-c(1)])
+test <- as.data.frame(data_matrix[107:173,-c(1)])
+
+nmodel <- neuralnet(f,data=train,hidden=1,
+                    threshold = 0.01,
+                    learningrate.limit = NULL,
+                    learningrate = 0.0001,
+                    algorithm = "rprop+")
+
+
+plot(nmodel)
+
+
+temp_test <- test
+temp_test$OsStatusDeceased <- NULL
+
+nn.results <- compute(nmodel, temp_test)
+
+
+results <- data.frame(actual = test$OsStatusDeceased, prediction = nn.results$net.result)
+
+
+results
+
+
+roundedresults<-sapply(results,round,digits=0)
+roundedresultsdf=data.frame(roundedresults)
+
+
+
+
 
 confMat<-confusionMatrix(as.factor(roundedresultsdf$prediction), as.factor(roundedresultsdf$actual))
 

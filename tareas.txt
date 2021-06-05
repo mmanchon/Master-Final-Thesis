@@ -1,12 +1,8 @@
-Martes 		-> chapter 4 results
-			
-
-Miercoles	-> Conclusions
-
-Jueves		->State of the art
-
-Viernes		-> Data Visualization
-
-Sabado 		-> Details and reredacting
-
-Domingo
+Hacer las modificaciones de introduccion 1
+Creacion de los objetivos bien redactados
+Data visualization ponerlo bien
+Mirar los pies de pagina sobretodo appendix que no falte nada
+Añadir más bibliografía
+State of the art revisar
+revisar explicación rf
+Reducir páginas

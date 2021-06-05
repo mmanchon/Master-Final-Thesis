@@ -12,7 +12,7 @@ library(corrplot)
 library(neuralnet)
 library(mxnet)
 
-datos_exp <- read.csv(file = "ClinicalOutcomesDS/CO_atlas2018_over2.csv")
+datos_exp <- read.csv(file = "ClinicalOutcomesDS/CO_atlas2018_over2.csv", stringsAsFactors = FALSE)
 
 
 categorical_data <- datos_exp[,c("X","AGE", "SEX", "RACE", "ETHNICITY", "NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT",
@@ -52,22 +52,22 @@ data$STAGE <- as.factor(categorical_data$STAGE)
 data[is.na(data)] <- -1
 data$ETHNICITY <- as.character(data$ETHNICITY)
 data$NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT <- as.character(data$NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT)
-data[is.na(data)] <- ''
+data[is.na(data)] <- 'None'
 
 data_matrix <- model.matrix(~AgeRange+SEX+RACE+ETHNICITY+RepeteadTumor+STAGE+
                               DiagnosisRange+MutationRange+AlteredRange+
                               EGLN2+C19orf26+POM121L8P+MCM4+MLXIPL+ROBO4+LGR4+TFRC+OsStatus, data=data)
 colnames(data_matrix)
-colnames(data_matrix)[24] <- "OsStatusDeceased"
-colnames(data_matrix)[5] <- "RACEBlackOrAfricanAmerican"
-colnames(data_matrix)[7] <- "ETHNICITYHispanicOrLatino"
-colnames(data_matrix)[8] <- "ETHNICITYNotHispanicOrLatino"
-col_list <- paste(c(colnames(data_matrix[,-c(1,24)])),collapse="+")
+colnames(data_matrix)[30] <- "OsStatusDeceased"
+colnames(data_matrix)[6] <- "RACEBlackOrAfricanAmerican"
+colnames(data_matrix)[8] <- "ETHNICITYHispanicOrLatino"
+colnames(data_matrix)[9] <- "ETHNICITYNotHispanicOrLatino"
+col_list <- paste(c(colnames(data_matrix[,-c(1,30)])),collapse="+")
 col_list <- paste(c("OsStatusDeceased~",col_list),collapse="")
 f <- formula(col_list)
 
 train <- as.data.frame(data_matrix[1:106,-c(1)])
-test <- as.data.frame(data_matrix[107:173,-c(1)])
+test <- as.data.frame(data_matrix[107:177,-c(1)])
 
 nmodel <- neuralnet(f,data=train,hidden=1,
                     threshold = 0.01,

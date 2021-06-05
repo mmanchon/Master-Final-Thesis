@@ -12,7 +12,7 @@ library(corrplot)
 library(neuralnet)
 library(mxnet)
 
-datos_exp <- read.csv(file = "ClinicalOutcomesDS/CO_atlas2018_over1.csv")
+datos_exp <- read.csv(file = "ClinicalOutcomesDS/CO_atlas2018_down1.csv", stringsAsFactors = FALSE)
 
 
 categorical_data <- datos_exp[,c("X","AGE", "SEX", "RACE", "ETHNICITY", "NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT",
@@ -33,6 +33,7 @@ categorical_data$STAGE <- as.character(categorical_data$STAGE)
 categorical_data$STAGE[is.na(categorical_data$STAGE)] <- "Stage I"
 categorical_data$STAGE <- as.factor(categorical_data$STAGE)
 
+
 lista<-levels(categorical_data$STAGE)
 lista_early<-lista[-c(6:7)]
 lista_late<-lista[-c(1:5)]
@@ -45,27 +46,31 @@ categorical_data <- categorical_data[,-which(colnames(categorical_data) %in% c("
 normalize <- function(x) {
   return ((x - min(x)) / (max(x) - min(x)))
 }
-maxmindf <- as.data.frame(lapply(datos_exp[,c("ANO1" ,"C1orf86","CD44","CRYBA2","DCT","EIF4E","FLT4" ,"GNAO1","GULP1","ITGB1","NPAS3"  ,"PRLR","ROBO4" ,"SPAG6" ,"SRC"  ,"TFRC")], normalize))
-datos_exp[,c("ANO1" ,"C1orf86","CD44","CRYBA2","DCT","EIF4E","FLT4" ,"GNAO1","GULP1","ITGB1","NPAS3"  ,"PRLR","ROBO4" ,"SPAG6" ,"SRC"  ,"TFRC")] <- maxmindf
-data <- merge(x = categorical_data, y = datos_exp[,c("X","ANO1" ,"C1orf86","CD44","CRYBA2","DCT","EIF4E","FLT4" ,"GNAO1","GULP1","ITGB1","NPAS3"  ,"PRLR","ROBO4" ,"SPAG6" ,"SRC"  ,"TFRC","OsStatus")], by = "X", all.x = TRUE)
+maxmindf <- as.data.frame(lapply(datos_exp[,c("IPW","DOCK10","PSMB8","CASC5","SNRPN","ELOVL4","LOC728392","CA12")], normalize))
+datos_exp[,c("IPW","DOCK10","PSMB8","CASC5","SNRPN","ELOVL4","LOC728392","CA12")] <- maxmindf
+data <- merge(x = categorical_data, y = datos_exp[,c("X","IPW","DOCK10","PSMB8","CASC5","SNRPN","ELOVL4","LOC728392","CA12","OsStatus")], by = "X", all.x = TRUE)
 categorical_data$STAGE <- as.factor(categorical_data$STAGE)
+
+data[is.na(data)] <- -1
+data$ETHNICITY <- as.character(data$ETHNICITY)
+data$NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT <- as.character(data$NEW_TUMOR_EVENT_AFTER_INITIAL_TREATMENT)
+data[is.na(data)] <- 'None'
 
 
 data_matrix <- model.matrix(~AgeRange+SEX+RACE+ETHNICITY+RepeteadTumor+STAGE+
                               DiagnosisRange+MutationRange+AlteredRange+
-                              ANO1+ C1orf86+CD44+CRYBA2+DCT + EIF4E + FLT4 +GNAO1+GULP1+ITGB1+NPAS3+PRLR+ROBO4
-                              +SPAG6+SRC+TFRC+OsStatus, data=data)
+                              IPW+DOCK10+PSMB8+CASC5+SNRPN+ELOVL4+LOC728392+CA12+OsStatus, data=data)
 colnames(data_matrix)
-colnames(data_matrix)[37] <- "OsStatusDeceased"
-colnames(data_matrix)[5] <- "RACEBlackOrAfricanAmerican"
-colnames(data_matrix)[7] <- "ETHNICITYHispanicOrLatino"
-colnames(data_matrix)[8] <- "ETHNICITYNotHispanicOrLatino"
-col_list <- paste(c(colnames(data_matrix[,-c(1,37)])),collapse="+")
+colnames(data_matrix)[30] <- "OsStatusDeceased"
+colnames(data_matrix)[6] <- "RACEBlackOrAfricanAmerican"
+colnames(data_matrix)[8] <- "ETHNICITYHispanicOrLatino"
+colnames(data_matrix)[9] <- "ETHNICITYNotHispanicOrLatino"
+col_list <- paste(c(colnames(data_matrix[,-c(1,30)])),collapse="+")
 col_list <- paste(c("OsStatusDeceased~",col_list),collapse="")
 f <- formula(col_list)
 
 train <- as.data.frame(data_matrix[1:106,-c(1)])
-test <- as.data.frame(data_matrix[107:173,-c(1)])
+test <- as.data.frame(data_matrix[107:177,-c(1)])
 
 nmodel <- neuralnet(f,data=train,hidden=1,
                     threshold = 0.01,

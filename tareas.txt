@@ -1,8 +1,24 @@
-Hacer las modificaciones de introduccion 1
-Creacion de los objetivos bien redactados
+Hacer las modificaciones de introduccion 1 (check)
+Creacion de los objetivos bien redactados (check)
+State of the art revisar (check)
+canvia els objectius en la línia que et dic a l'altra correu (pots introduir subapartats si vols, encara que no és imprescindible) 
 Data visualization ponerlo bien
-Mirar los pies de pagina sobretodo appendix que no falte nada
-Añadir más bibliografía
-State of the art revisar
-revisar explicación rf
 Reducir páginas
+Vigila el tema de format (hi ha molt d'espai buit que pots eliminar), 
+Mirar los pies de pagina sobretodo appendix que no falte nada
+Procura que els títols dels resultats estiguin d'acord amb els objectius
+Añadir más bibliografía
+
+
+Fes l'apartat de "Future goals/ research" justificant el per què.
+revisar explicación rf
+
+Introduccion 3-6		4	
+Objectives 7-8			2	
+Basic concepts 9-12		4	
+State art 13-26			14	
+Methodology 27-42		16	
+Results 43-86			44	
+Conclusions 87-88		2	
+Future work 89			1	
+						87	67
